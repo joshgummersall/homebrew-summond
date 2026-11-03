@@ -15,23 +15,23 @@ cask "summond" do
       delete:       [
         "/Library/LaunchDaemons/com.joshgummersall.summond.*.plist",
         "/Library/Application Support/summond",
-        "/etc/newsyslog.d/com.joshgummersall.summond.conf",
+        "/etc/newsyslog.d/com.joshgummersall.summond*.conf",
       ],
       trash:        [
         "~/Library/LaunchAgents/com.joshgummersall.summond.*.plist",
         "~/Library/Application Support/summond",
       ]
 
-  version "1.4.1"
+  version "2.0.0"
 
   on_macos do
     on_arm do
-      sha256 "2be23a19bda48c7a344dc94f683880e59fa7f2e6a6dbbd117a0f60beaf07fbe9"
+      sha256 "f478796628c028d7d45aa62e8efb3d94ce1def3fee79e018c450af4246aabda9"
       url "https://github.com/joshgummersall/summond/releases/download/v#{version}/summond-darwin-arm64"
       binary "summond-darwin-arm64", target: "summond"
     end
     on_intel do
-      sha256 "7129dd2321b8c11fe106adc38fbb29df8f79a26327439507bac058d0d0b1ad38"
+      sha256 "3c17d0ba576a2ffb451b67934f914b3f6485686bea3abe6be85c1bbfdb702c08"
       url "https://github.com/joshgummersall/summond/releases/download/v#{version}/summond-darwin-amd64"
       binary "summond-darwin-amd64", target: "summond"
     end
@@ -48,12 +48,26 @@ cask "summond" do
 
   postflight_steps do
     run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{staged_path}}"]
+    if_path_exists "Library/Application Support/summond", base: :home do
+      run "{{HOMEBREW_PREFIX}}/bin/summond",
+          args:           ["refresh-runtime"],
+          must_succeed:   false,
+          writable_paths: ["Library/Application Support/summond"],
+          writable_base:  :home
+    end
+    if_path_exists "/Library/Application Support/summond" do
+      run "{{HOMEBREW_PREFIX}}/bin/summond",
+          args:         ["refresh-runtime"],
+          sudo:         true,
+          must_succeed: false
+    end
   end
 
   # No zap stanza required
 
   caveats <<~EOS
     Jobs keep running after `brew uninstall`. To remove every job, log, and
-    state directory, run `summond uninstall` first or use `brew uninstall --zap`.
+    state directory, run `summond uninstall` (agents) and
+    `sudo summond uninstall` (daemons) first, or use `brew uninstall --zap`.
   EOS
 end
