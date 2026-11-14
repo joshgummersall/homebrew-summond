@@ -22,16 +22,16 @@ cask "summond" do
         "~/Library/Application Support/summond",
       ]
 
-  version "2.0.0"
+  version "3.0.0"
 
   on_macos do
     on_arm do
-      sha256 "f478796628c028d7d45aa62e8efb3d94ce1def3fee79e018c450af4246aabda9"
+      sha256 "34a890cdb7b93f67127f5f0ed33fecfcf35b0684f62ed12fab65133f91443187"
       url "https://github.com/joshgummersall/summond/releases/download/v#{version}/summond-darwin-arm64"
       binary "summond-darwin-arm64", target: "summond"
     end
     on_intel do
-      sha256 "3c17d0ba576a2ffb451b67934f914b3f6485686bea3abe6be85c1bbfdb702c08"
+      sha256 "2b5173d80119286ec4f38fb4e0d7c30ac744e6c2fdcd1d650c31b9b1592784bc"
       url "https://github.com/joshgummersall/summond/releases/download/v#{version}/summond-darwin-amd64"
       binary "summond-darwin-amd64", target: "summond"
     end
