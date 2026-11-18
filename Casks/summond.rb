@@ -22,16 +22,16 @@ cask "summond" do
         "~/Library/Application Support/summond",
       ]
 
-  version "3.0.0"
+  version "4.0.0"
 
   on_macos do
     on_arm do
-      sha256 "34a890cdb7b93f67127f5f0ed33fecfcf35b0684f62ed12fab65133f91443187"
+      sha256 "cf793e350c808551a48bb1593628a912c304a845b8cd0b606343cfd5f089e08a"
       url "https://github.com/joshgummersall/summond/releases/download/v#{version}/summond-darwin-arm64"
       binary "summond-darwin-arm64", target: "summond"
     end
     on_intel do
-      sha256 "2b5173d80119286ec4f38fb4e0d7c30ac744e6c2fdcd1d650c31b9b1592784bc"
+      sha256 "8bdbeadb9a1e923f7b15e51ceb379730f8f874de5e2836389a8985080d366341"
       url "https://github.com/joshgummersall/summond/releases/download/v#{version}/summond-darwin-amd64"
       binary "summond-darwin-amd64", target: "summond"
     end
@@ -63,7 +63,7 @@ cask "summond" do
     end
   end
 
-  # No zap stanza required
+  zap :not_required
 
   caveats <<~EOS
     Jobs keep running after `brew uninstall`. To remove every job, log, and
